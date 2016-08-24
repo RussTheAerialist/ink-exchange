@@ -1,0 +1,26 @@
+{
+  "name": "inkexchange-server",
+  "version": "1.0.0",
+  "description": "REST server for ink exchange",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Russell Hay",
+  "license": "MIT",
+  "dependencies": {
+    "bunyan": "^1.8.1",
+    "dotenv": "^2.0.0",
+    "massive": "^2.5.0",
+    "passport": "^0.3.2",
+    "passport-http": "^0.3.0",
+    "passport-localapikey": "0.0.3",
+    "password-hash": "^1.2.2",
+    "restify": "^4.1.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.0.2",
+    "semistandard": "^8.0.0"
+  }
+}
