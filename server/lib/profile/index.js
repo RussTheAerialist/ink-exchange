@@ -1,15 +1,17 @@
 var restify = require('restify');
 var auth = require('../auth');
+var Model = require('./model');
 
 function getProfile (req, res, next) {
-  var includeOwnInformation = (req.user && req.user == req.params.username);
-  // req.log.info(req.db);
-  var user = req.db.users.findOne({username: req.params.username});
-  if (!user) {
-    return next(new restify.errors.ResourceNotFoundError(`${req.params.username} not found`));
-  }
-  delete user['password_hash']; // TODO: just remove it from the query based on the includeOwnInformation
-  res.send(user);
+  var includeOwnInformation = (req.user && req.user.username == req.params.username);
+  var model = Model(req.db);
+  model.find(req.params.username, (err, user) => {
+    if (!user) {
+      return next(new restify.errors.ResourceNotFoundError(`/users/${req.params.username} not found`));
+    }
+    delete user['password_hash']; // TODO: just remove it from the query based on the includeOwnInformation
+    res.send({code: 200, data: user});
+  });
 }
 
 function updateProfile (req, res, next) {
@@ -25,7 +27,18 @@ function deleteProfile (req, res, next) {
     return next(new restify.errors.NotAuthorizedError('cannot delete yourself'));
   }
 
-  res.send('delete');
+  var model = Model(req.db);
+
+  model.find(req.params.username, (err, user) => {
+    next.ifError(err);
+    if (!user) {
+      next(new restify.errors.ResourceNotFoundError(`${req.params.username} not found`));
+    }
+    model.drop(user.id, (err) => {
+      next.ifError(err);
+      res.send({code: 200});
+    });
+  });
 }
 
 module.exports = (server) => {
