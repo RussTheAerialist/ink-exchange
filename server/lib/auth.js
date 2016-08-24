@@ -10,6 +10,7 @@ function attach(server, db, log) {
   server.use(passport.initialize());
   passport.use('password', new PasswordStrategy(
     (username, password, done) => {
+      log.info('password ' + db);
       db.users.findOne({username: username}, (err, user) => {
         if (err) {
           log.error(err);
@@ -20,11 +21,9 @@ function attach(server, db, log) {
           return done(new restify.errors.NotAuthorizedError());
         }
 
-        var apikey = hash.generateApiKey(username, 0);
         return done(null, {
           id: user.id,
-          username: user.username,
-          apikey: apikey
+          username: user.username
         });
       });
     },
@@ -35,21 +34,30 @@ function attach(server, db, log) {
     }
   ));
 
-  passport.use(new LocalApiStrategy((apikey, done) => {
-    log.info('apikey');
-    // TODO: Validate API Key from cache
-    return done(null, 'userObject');
-  }));
-
   return passport;
 }
 
-var login = passport.authenticate('password', {session: false});
-var authenticate = passport.authenticate('localapikey', {session: false});
+var authenticate = passport.authenticate('password', {session: false});
+
+function is_owner(req, res, next) {
+  req.log.info('is_owner');
+  if (req.user && req.user.username !== req.params.username) {
+    req.log.error('username and user did not match');
+    return next(new restify.errors.NotAuthorizedError());
+  }
+
+  return next();
+}
+
+function is_admin(req, res, next) {
+  // TODO: Query the database so we never store anything locally
+  return next();
+}
 
 module.exports = {
   attach: attach,
   authenticate: authenticate,
-  login: login
+  is_owner: is_owner,
+  is_admin, is_admin
 };
 
