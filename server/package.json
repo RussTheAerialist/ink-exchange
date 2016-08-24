@@ -14,7 +14,6 @@
     "massive": "^2.5.0",
     "passport": "^0.3.2",
     "passport-http": "^0.3.0",
-    "passport-localapikey": "0.0.3",
     "password-hash": "^1.2.2",
     "restify": "^4.1.1"
   },

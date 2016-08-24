@@ -17,8 +17,5 @@ module.exports = {
   verifyPassword: (password, hash) => {
     log.info(passwordHash.verify(password, hash));
     return passwordHash.verify(password, hash);
-  },
-  generateApiKey: (username, timestamp) => {
-    return "";
   }
 };

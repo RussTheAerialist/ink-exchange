@@ -1,12 +1,9 @@
 var restify = require('restify');
 var passport = require('passport');
-var LocalApiStrategy = require('passport-localapikey').Strategy;
 var PasswordStrategy = require('passport-http').BasicStrategy;
 var hash = require('./hasher');
 
-var api_keys_cache = {};
-
-function attach(server, db, log) {
+function attach (server, db, log) {
   server.use(passport.initialize());
   passport.use('password', new PasswordStrategy(
     (username, password, done) => {
@@ -39,8 +36,8 @@ function attach(server, db, log) {
 
 var authenticate = passport.authenticate('password', {session: false});
 
-function is_owner(req, res, next) {
-  req.log.info('is_owner');
+function isOwner (req, res, next) {
+  req.log.info('isOwner');
   if (req.user && req.user.username !== req.params.username) {
     req.log.error('username and user did not match');
     return next(new restify.errors.NotAuthorizedError());
@@ -49,15 +46,15 @@ function is_owner(req, res, next) {
   return next();
 }
 
-function is_admin(req, res, next) {
+function isAdmin (req, res, next) {
   // TODO: Query the database so we never store anything locally
   return next();
 }
 
 module.exports = {
-  attach: attach,
-  authenticate: authenticate,
-  is_owner: is_owner,
-  is_admin, is_admin
+  attach,
+  authenticate,
+  isOwner,
+  isAdmin
 };
 
