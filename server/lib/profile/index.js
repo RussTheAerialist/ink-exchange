@@ -19,7 +19,7 @@ function getProfile (req, res, next) {
       return next(new restify.errors.ResourceNotFoundError(`/users/${req.params.username} not found`));
     }
     delete user['password_hash']; // TODO: just remove it from the query based on the includeOwnInformation
-    res.send({code: 200, data: user});
+    res.json(200, {code: 200, data: user});
   }).catch((err) => {
     next(err);
   });

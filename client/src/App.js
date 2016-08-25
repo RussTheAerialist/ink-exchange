@@ -1,18 +1,32 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import rest from 'rest';
+import mime from 'rest/interceptor/mime';
+import InkList from './components/InkList';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      inks: [],
+      user: undefined
+    };
+  }
+
+  componentDidMount() {
+    let client = rest.wrap(mime);
+    client({ path: 'http://localhost:8000/inks'}).then(
+      (response) => {
+        console.dir(response.entity);
+        this.setState({inks: response.entity.data});
+      }
+    )
+  }
+
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <InkList inks={this.state.inks} />
       </div>
     );
   }

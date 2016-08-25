@@ -1,5 +1,5 @@
 {
-  "name": "inkexchange-server",
+  "name": "ink-exchange-server",
   "version": "1.0.0",
   "description": "REST server for ink exchange",
   "main": "server.js",

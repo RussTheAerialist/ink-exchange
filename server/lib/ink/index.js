@@ -6,7 +6,7 @@ function getInksForUser (req, res, next) {
   var model = Model(req.db);
   model.getForUsername(req.params.username)
     .then((inks) => {
-      res.send({code: 200, data: inks});
+      res.json(200, {code: 200, data: inks});
     }).catch((err) => {
     req.log.error(err);
     next.ifError(err);
@@ -19,7 +19,7 @@ function getAllInks (req, res, next) {
   model.getAll({extended: true})
     .then((inks) => {
       req.log.info(inks);
-      res.send({code: 200, data: inks});
+      res.json(200, {code: 200, data: inks});
     }).catch((err) => {
       req.log.error(err);
       next.ifError(err);
@@ -34,7 +34,7 @@ function createInk (req, res, next) {
   data.owner_id = owner_id;
 
   model.create(data).then(() => {
-    res.send({code: 200, message: 'created'});
+    res.json(200, {code: 200, message: 'created'});
   }).catch((err) => {
     req.log.error(err);
     next.ifError(err);
@@ -47,7 +47,7 @@ function deleteInk (req, res, next) {
   var model = Model(req.db);
 
   model.delete({owner_id, id: ink_id}).then(() => {
-    res.send({code: 200, message: 'deleted'});
+    res.json(200, {code: 200, message: 'deleted'});
   }).catch((err) => {
     req.log.error(err);
     next.ifError(err);

@@ -18,6 +18,9 @@ server.use((req, res, next) => {
   return next();
 });
 server.use(restify.requestLogger());
+server.use(restify.CORS({
+  origins: ['http://localhost:3000']
+}));
 server.use(restify.authorizationParser());
 server.use(restify.bodyParser());
 server.use(restify.dateParser());
