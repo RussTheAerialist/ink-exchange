@@ -26,7 +26,7 @@ function getAllInks (req, res, next) {
   });
 }
 
-function createInk(req, res, next) {
+function createInk (req, res, next) {
   var owner_id = req.user.id;
   var model = Model(req.db);
 
@@ -41,9 +41,23 @@ function createInk(req, res, next) {
   });
 }
 
+function deleteInk (req, res, next) {
+  var owner_id = req.user.id;
+  var ink_id = req.params.id;
+  var model = Model(req.db);
+
+  model.delete({owner_id, id: ink_id}).then(() => {
+    res.send({code: 200, message: 'deleted'});
+  }).catch((err) => {
+    req.log.error(err);
+    next.ifError(err);
+  });
+}
+
 module.exports = (server) => {
   // Register Routes for inks
   server.get('/user/:username/inks', getInksForUser);
+  server.del('/user/:username/inks/:id', auth.authenticate, auth.isOwner, deleteInk);
   server.get('/inks', getAllInks);
   server.put('/inks', auth.authenticate, createInk);
 };

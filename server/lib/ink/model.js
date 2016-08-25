@@ -43,4 +43,10 @@ Model.prototype.create = function (data) {
   });
 };
 
+Model.prototype.delete = function (data) {
+  return new Promise((resolve, reject) => {
+    this.db.inks.destroy(data, passToPromise(resolve, reject));
+  })
+}
+
 module.exports = Model;
