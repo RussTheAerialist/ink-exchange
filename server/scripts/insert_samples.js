@@ -18,12 +18,12 @@ function add_test_admin() {
   });
 }
 
-function insert_sample_ink(name, image_url) {
+function insert_sample_ink(name) {
   return () => {
     return new Promise((resolve, reject) => {
       db.inks.insert({
         name,
-        image_url,
+        fetch_from_goulet: true,
         owner_id: 1
       }, passToPromise(resolve, reject));
     });
@@ -35,8 +35,8 @@ function finish() {
 }
 
 add_test_admin()
-  .then(insert_sample_ink('Black Swan in Australian Rose', 'http://placehold.it/350x350'))
-  .then(insert_sample_ink('El Lawrence', 'http://placehold.it/350x350'))
+  .then(insert_sample_ink('Black Swan in Australian Rose'))
+  .then(insert_sample_ink('El Lawrence'))
   .then(finish).catch((err) => {
     log.error(err);
     db.end();

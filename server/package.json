@@ -4,6 +4,10 @@
   "description": "REST server for ink exchange",
   "main": "server.js",
   "scripts": {
+    "start": "nodemon server.js | bunyan",
+    "dev": "nodemon -w server.js | bunyan",
+    "resetdb": "(node scripts/destroy_database.js && node scripts/create_database.js) | bunyan",
+    "samples": "node scripts/insert_samples.js | bunyan",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Russell Hay",
