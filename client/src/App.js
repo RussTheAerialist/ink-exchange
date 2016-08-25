@@ -2,14 +2,21 @@ import React, { Component } from 'react';
 import './App.css';
 import rest from 'rest';
 import mime from 'rest/interceptor/mime';
-import InkList from './components/InkList';
+import Header from './components/Header';
+import Footer from './components/Footer';
+// import InkList from './components/InkList';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       inks: [],
-      user: undefined
+      user: { name: 'rhay', id: 1 },
+      navItems: [
+        { id: 'data', path: '/data', name: 'Stats' },
+        { id: 'login', path: '/login', name: 'Login', extraClass: 'right'}
+      ],
+      mainPage: true
     };
   }
 
@@ -25,10 +32,12 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <InkList inks={this.state.inks} />
+      <div className="wrapper">
+        <Header navItems={this.state.navItems} mainPage={this.state.mainPage}/>
+        {this.props.children || "Nothing Here"}
+        <Footer user={this.state.user}/>
       </div>
-    );
+  );
   }
 }
 

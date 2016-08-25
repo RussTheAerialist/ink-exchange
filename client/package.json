@@ -6,8 +6,11 @@
     "react-scripts": "0.2.2"
   },
   "dependencies": {
+    "immutable": "^3.8.1",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
+    "react-router": "^2.7.0",
+    "redux": "^3.5.2",
     "rest": "^2.0.0",
     "whatwg-fetch": "^1.0.0"
   },

@@ -1,0 +1,14 @@
+header {
+    background: red;
+    padding: 0 2rem;
+}
+
+header > h1 {
+    font-size: 9rem;
+    padding: 3rem 0;
+}
+
+header > h1 > a {
+    color: black;
+    text-decoration: none;
+}
