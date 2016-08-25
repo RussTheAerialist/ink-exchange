@@ -1,12 +1,6 @@
 var log = require('bunyan').createLogger({name: 'profile'});
 var hash = require('../hasher');
-
-function _passToPromise (resolve, reject) {
-  return (err, value) => {
-    if (err) { reject(err); }
-    resolve(value);
-  };
-}
+var passToPromise = require('../utils').passToPromise;
 
 function Model (db) {
   if (!(this instanceof Model)) {
@@ -18,19 +12,19 @@ function Model (db) {
 
 Model.prototype.all = function () {
   return new Promise((resolve, reject) => {
-    this.db.users_all(_passToPromise(resolve, reject));
+    this.db.users_all(passToPromise(resolve, reject));
   });
 };
 
 Model.prototype.find = function (username) {
   return new Promise((resolve, reject) => {
-    this.db.users.findOne({username: username}, _passToPromise(resolve, reject));
+    this.db.users.findOne({username: username}, passToPromise(resolve, reject));
   });
 };
 
 Model.prototype.get = function (id) {
   return new Promise((resolve, reject) => {
-    this.db.users.find(id, _passToPromise(resolve, reject));
+    this.db.users.find(id, passToPromise(resolve, reject));
   });
 };
 
@@ -38,7 +32,7 @@ Model.prototype.get = function (id) {
 //   log.info('drop called');
 //   return new Promise((resolve, reject) => {
 //     log.info('drop promise started');
-//     this.db.users.destroy({id: id}, _passToPromise(resolve, reject));
+//     this.db.users.destroy({id: id}, passToPromise(resolve, reject));
 //   });
 // };
 
@@ -48,7 +42,7 @@ Model.prototype.create = function (data) {
   delete data['password'];
   data.password_hash = hash.getHash(password);
   return new Promise((resolve, reject) => {
-    this.db.users.save(data, _passToPromise(resolve, reject));
+    this.db.users.save(data, passToPromise(resolve, reject));
   });
 };
 
@@ -63,7 +57,7 @@ Model.prototype.create = function (data) {
 //     // updateRecord.password_hash = ""; // TODO: generate password hash
 //   }
 //   return new Promise((resolve, reject) => {
-//     this.db.users.save(updateRecord, _passToPromise(resolve, reject));
+//     this.db.users.save(updateRecord, passToPromise(resolve, reject));
 //   });
 // };
 

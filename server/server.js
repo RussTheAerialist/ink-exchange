@@ -2,10 +2,11 @@ require('dotenv').config();
 var restify = require('restify');
 var auth = require('./lib/auth');
 var log = require('bunyan').createLogger({name: 'ie'});
-var massive = require('massive');
-var db = massive.connectSync({connectionString: process.env.CONNECTION});
-
+var db = require('./lib/db');
 var profile = require('./lib/profile');
+var ink = require('./lib/ink');
+
+var SERVER_PORT = process.env.REST_PORT || 8000;
 
 var server = restify.createServer({
   name: 'inkexchange',
@@ -28,6 +29,8 @@ server.post('/login', auth.authenticate, (req, res) => {
 });
 
 profile(server, log);
-server.listen(8000);
-log.info('Starting server on port 8080');
+ink(server, log);
+
+server.listen(SERVER_PORT);
+log.info(`Starting server on port ${SERVER_PORT}`);
 
