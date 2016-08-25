@@ -26,8 +26,24 @@ function getAllInks (req, res, next) {
   });
 }
 
+function createInk(req, res, next) {
+  var owner_id = req.user.id;
+  var model = Model(req.db);
+
+  var data = JSON.parse(req.body);
+  data.owner_id = owner_id;
+
+  model.create(data).then(() => {
+    res.send({code: 200, message: 'created'});
+  }).catch((err) => {
+    req.log.error(err);
+    next.ifError(err);
+  });
+}
+
 module.exports = (server) => {
   // Register Routes for inks
   server.get('/user/:username/inks', getInksForUser);
   server.get('/inks', getAllInks);
+  server.put('/inks', auth.authenticate, createInk);
 };
