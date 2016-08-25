@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import './App.css';
-import rest from 'rest';
-import mime from 'rest/interceptor/mime';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import * as actions from './actions';
 // import InkList from './components/InkList';
 
 class App extends Component {
@@ -21,24 +21,30 @@ class App extends Component {
   }
 
   componentDidMount() {
-    let client = rest.wrap(mime);
-    client({ path: 'http://localhost:8000/inks'}).then(
-      (response) => {
-        console.dir(response.entity);
-        this.setState({inks: response.entity.data});
-      }
-    )
+    const dispatch = this.props.dispatch;
+    dispatch(actions.getInksFromServer());
   }
 
   render() {
     return (
       <div className="wrapper">
         <Header navItems={this.state.navItems} mainPage={this.state.mainPage}/>
-        {this.props.children || "Nothing Here"}
+        {this.props.children || "Nothing" }
         <Footer user={this.state.user}/>
       </div>
   );
   }
 }
 
-export default App;
+App.propTypes = {
+  dispatch: React.PropTypes.func.isRequired
+};
+
+function mapStateToProps(state) {
+  return {
+    inks: state.inks,
+    requests: state.requests
+  };
+}
+
+export default connect(mapStateToProps)(App);

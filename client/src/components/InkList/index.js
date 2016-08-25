@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-// import './App.css';
-import Ink from './Ink';
+import './style.css';
+import Ink from '../Ink';
 
 class InkList extends Component {
   render() {
+    console.dir(this.props.inks);
+
     return (
-      <ul className="App-intro">
-        {this.props.inks.map(function(v) {
-          return <Ink ink={v} key={v.id} />;
-        })}
+      <ul className="inkList">
+        <li>Something</li>
       </ul>
     );
   }

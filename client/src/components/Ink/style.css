@@ -1,0 +1,18 @@
+.ink {
+    margin-right: 2rem;
+    width: 152px;
+    display: flex;
+    flex-direction: column;
+}
+
+.ink img {
+    border-radius: 3px;
+}
+
+.ink span {
+    padding: 0.4rem;
+}
+
+.ink .sample {
+    padding: 0;
+}
