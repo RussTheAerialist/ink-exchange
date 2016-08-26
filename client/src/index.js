@@ -4,18 +4,16 @@ import { Provider } from 'react-redux';
 import store from './store';
 import ReactDOM from 'react-dom';
 import App from './App';
-import InkListContainer from './containers/InkListContainer';
-import InkDetailContainer from './containers/InkDetailContainer';
+import InkList from './components/InkList';
+import Ink from './components/Ink';
 import './index.css';
 
 ReactDOM.render((
   <Provider store={store}>
     <Router history={hashHistory}>
       <Route path="/" component={App}>
-        <IndexRoute component={InkListContainer} />
-        <Route path="/login" component={() => <div>login</div>} />
-        <Route path="/data" component={() => <div>data</div>} />
-        <Route path="/ink/:ink_id" component={() => <InkDetailContainer/>} />
+        <IndexRoute component={InkList} />
+        <Route path="/inks/:id" component={Ink} />
       </Route>
     </Router>
   </Provider>

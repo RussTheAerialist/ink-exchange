@@ -13,6 +13,17 @@ function getInksForUser (req, res, next) {
   });
 }
 
+function getInk (req, res, next) {
+  var model = Model(req.db);
+  model.get(req.params.id)
+    .then((ink) => {
+      res.json(200, {code: 200, data: ink});
+    }).catch((err) => {
+      req.log.error(err);
+      next.ifError(err);
+  });
+}
+
 function getAllInks (req, res, next) {
   req.log.info('getAllInks');
   var model = Model(req.db);
@@ -59,5 +70,6 @@ module.exports = (server) => {
   server.get('/user/:username/inks', getInksForUser);
   server.del('/user/:username/inks/:id', auth.authenticate, auth.isOwner, deleteInk);
   server.get('/inks', getAllInks);
+  server.get('/inks/:id', getInk);
   server.put('/inks', auth.authenticate, createInk);
 };

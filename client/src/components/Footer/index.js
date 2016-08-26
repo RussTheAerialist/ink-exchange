@@ -1,20 +1,26 @@
-import React, {Component} from 'react';
+import React from 'react';
+import {connect} from 'react-redux';
 import './style.css';
 
-class Footer extends Component {
-  render() {
-    return (
-      <div className="footer">
-        <div className="content">
-          To get an account, email <a href="mailto:rhay">rhay</a>
-        </div>
-      </div>
-    );
+const mapStateToProps = state => ({
+  currentUser: state.app.currentUser // You'll probably need something specific here
+});
+
+const mapDispatchToProps = dispatch => ({
+});
+
+const Footer = (props) => {
+  if (props.currentUser) {
+    return (<span>&nbsp;</span>);
   }
-}
 
-Footer.propTypes = {};
+  return (
+    <div className="footer">
+      <div className="content">
+        To get an account, email <a href="mailto:rhay">rhay</a>
+      </div>
+    </div>
+  );
+};
 
-Footer.defaultProps = {};
-
-export default Footer;
+export default connect(mapStateToProps, mapDispatchToProps)(Footer);

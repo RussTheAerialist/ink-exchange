@@ -37,6 +37,12 @@ Model.prototype.getAll = function (options) {
   }
 };
 
+Model.prototype.get = function (id) {
+  return new Promise((resolve, reject) => {
+    this.db.inks_get_full(id, passToPromise(resolve, reject));
+  });
+};
+
 Model.prototype.create = function (data) {
   return new Promise((resolve, reject) => {
     this.db.inks.save(data, passToPromise(resolve, reject));

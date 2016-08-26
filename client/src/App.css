@@ -22,3 +22,8 @@ body, html {
     min-height: 100vh;
     position: relative;
 }
+
+.columns {
+    display: flex;
+    padding: 2rem;
+}

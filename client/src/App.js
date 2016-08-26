@@ -4,47 +4,48 @@ import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import * as actions from './actions';
-// import InkList from './components/InkList';
+import agent from './agent';
+
+const mapStateToProps = state => ({
+  appLoaded: state.app.appLoaded,
+  appName: state.app.appName,
+  currentUser: state.app.currentUser
+});
+
+const mapDispatchToProps = dispatch => ({
+  onLoad: (payload, token) => dispatch(actions.loadApp())
+});
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      inks: [],
-      user: { name: 'rhay', id: 1 },
-      navItems: [
-        { id: 'data', path: '/data', name: 'Stats' },
-        { id: 'login', path: '/login', name: 'Login', extraClass: 'right'}
-      ],
-      mainPage: true
-    };
-  }
+  componentWillMount() {
+    const token = window.localStorage.getItem('jwt');
+    if (token) {
+      agent.setToken(token);
+    }
 
-  componentDidMount() {
-    const dispatch = this.props.dispatch;
-    dispatch(actions.getInksFromServer());
+    this.props.onLoad(token ? 'user' : null, token);
   }
 
   render() {
+    if (this.props.appLoaded)
+      return (
+        <div className="wrapper">
+          <Header navItems={[]} mainPage={undefined}/>
+          {this.props.children || "Nothing" }
+          <Footer user={undefined}/>
+        </div>
+      );
+
     return (
       <div className="wrapper">
-        <Header navItems={this.state.navItems} mainPage={this.state.mainPage}/>
-        {this.props.children || "Nothing" }
-        <Footer user={this.state.user}/>
+        Loading...
       </div>
-  );
+    );
   }
 }
 
-App.propTypes = {
-  dispatch: React.PropTypes.func.isRequired
+App.contextTypes = {
+  router: React.PropTypes.object.isRequired
 };
 
-function mapStateToProps(state) {
-  return {
-    inks: state.inks,
-    requests: state.requests
-  };
-}
-
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

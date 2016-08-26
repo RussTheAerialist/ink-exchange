@@ -1,0 +1,33 @@
+.inkPreviewList {
+    display: flex;
+    padding: 2rem;
+}
+
+.inkPreview {
+    max-width: 102px;
+    margin-right: 2rem;
+}
+
+.inkPreview img {
+    max-width: 100px;
+}
+
+.inkPreview header {
+    margin-top: 0.3rem;
+}
+
+.inkPreview {
+    font-size: 1rem;
+}
+
+.inkPreview.large {
+    max-width: none;
+}
+
+.inkPreview.large h1 {
+    font-size: 1.5rem;
+}
+
+.inkPreview.large img {
+    max-width: none;
+}

@@ -1,23 +1,42 @@
-import React from 'react';
-import {Link} from 'react-router';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import * as actions from '../../actions';
+import agent from '../../agent';
+import {InkPreview} from '../InkPreview';
 import './style.css';
 
-const Ink = ( { id, name, image_url, available, purchase_url, owner_name } ) => (
-  <li
-    className={available ? 'ink available' : 'ink unavailable'}><Link to={"/ink/" + id}>
-    <span className="sample"><img src={image_url || "//placehold.it/150x150"} alt={name} /></span>
-    <span className="name">{ name }</span>
-    <span className="owner">{ owner_name }</span></Link>
-  </li>
-);
+const mapStateToProps = state => ({
+  ...state.ink,
+  currentUser: state.app.currentUser
+});
 
-Ink.propTypes = {
-  id: React.PropTypes.number.isRequired,
-  name: React.PropTypes.string.isRequired,
-  owner_name: React.PropTypes.string,
-  image_url: React.PropTypes.string,
-  purchase_url: React.PropTypes.string,
-  available: React.PropTypes.bool
-};
+const mapDispatchToProps = dispatch => ({
+  onLoad: payload => dispatch(actions.loadInk(payload))
+});
 
-export default Ink;
+class Ink extends Component {
+  componentWillMount() {
+    this.props.onLoad(agent.Inks.get(this.props.params.id));
+  }
+
+  componentWillUnmount() {
+  }
+
+  render() {
+    const ink = this.props.ink;
+
+    if (ink) {
+      console.dir(ink);
+      return (
+        <div className="columns">
+          <InkPreview className="large" {...ink[0]}/>
+          <div className="inkSidebar">Request History</div>
+        </div>
+      )
+    }
+
+    return (<div>Loading...</div>);
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Ink);
