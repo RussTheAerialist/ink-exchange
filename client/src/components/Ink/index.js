@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import * as actions from '../../actions';
 import agent from '../../agent';
 import {InkPreview} from '../InkPreview';
+import RequestHistory from './RequestHistory';
 import './style.css';
 
 const mapStateToProps = state => ({
@@ -24,13 +25,14 @@ class Ink extends Component {
 
   render() {
     const ink = this.props.ink;
+    const history = this.props.history || [];
 
     if (ink) {
       console.dir(ink);
       return (
         <div className="columns">
           <InkPreview className="large" {...ink[0]}/>
-          <div className="inkSidebar">Request History</div>
+          <div className="inkSidebar"><RequestHistory history={history} /></div>
         </div>
       )
     }

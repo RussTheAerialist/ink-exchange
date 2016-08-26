@@ -18,12 +18,20 @@ function inks() {
   });
 }
 
+function requests() {
+  return new Promise((resolve, reject) => {
+    log.info('create inks');
+    db.requests_create_schema(passToPromise(resolve, reject));
+  });
+}
+
 function finish() {
   db.end();
 }
 
 users()
   .then(inks)
+  .then(requests)
   .then(finish).catch((err) => {
     log.error(err);
     db.end();

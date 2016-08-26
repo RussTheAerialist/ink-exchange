@@ -18,11 +18,19 @@ function inks() {
   });
 }
 
+function requests() {
+  return new Promise((resolve, reject) => {
+    log.info('drop inks');
+    db.requests_drop_table(passToPromise(resolve, reject));
+  });
+}
+
 function finish() {
   db.end();
 }
 
-inks()
+requests()
+  .then(inks())
   .then(users)
   .then(finish).catch((err) => {
     log.error(err);

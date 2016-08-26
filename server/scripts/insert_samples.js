@@ -30,6 +30,16 @@ function insert_sample_ink(name) {
   };
 }
 
+function insert_sample_history(requestor_id, ink_id) {
+  return () => {
+    return new Promise((resolve, reject) => {
+      db.requests.insert({
+        requestor_id, ink_id
+      }, passToPromise(resolve, reject));
+    })
+  }
+}
+
 function finish() {
   db.end();
 }
@@ -37,6 +47,7 @@ function finish() {
 add_test_admin()
   .then(insert_sample_ink('Black Swan in Australian Rose'))
   .then(insert_sample_ink('El Lawrence'))
+  .then(insert_sample_history(1, 1))
   .then(finish).catch((err) => {
     log.error(err);
     db.end();
