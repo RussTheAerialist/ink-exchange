@@ -5,6 +5,7 @@ import store from './store';
 import ReactDOM from 'react-dom';
 import App from './App';
 import InkListContainer from './containers/InkListContainer';
+import InkDetailContainer from './containers/InkDetailContainer';
 import './index.css';
 
 ReactDOM.render((
@@ -14,6 +15,7 @@ ReactDOM.render((
         <IndexRoute component={InkListContainer} />
         <Route path="/login" component={() => <div>login</div>} />
         <Route path="/data" component={() => <div>data</div>} />
+        <Route path="/ink/:ink_id" component={() => <InkDetailContainer/>} />
       </Route>
     </Router>
   </Provider>

@@ -1,24 +1,22 @@
 import {connect} from 'react-redux';
-
-import * as actions from '../actions';
 import InkList from '../components/InkList';
 
-const getInks = (inks, selectedInk) => {
+const getInks = (inks) => {
+  if (inks.map === undefined) {
+    return [];
+  }
   return inks;
 };
 
 const mapStateToProps = (state) => {
   const inks = state.InkExchangeApp.loadInks.inks;
   return {
-    inks: getInks(inks, state.InkExchangeApp.selectInk.selectedInk)
+    inks: getInks(inks)
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onInkSelect: (ink_id) => {
-      dispatch(actions.selectInk(ink_id))
-    }
   }
 };
 

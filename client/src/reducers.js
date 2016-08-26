@@ -12,9 +12,12 @@ function selectInk(state = {ink_id: undefined}, action) {
 function loadInks(state = {inks: {}}, action) {
   switch(action.type) {
     case actions.LOAD_INKS:
-      if (action.data && action.data.length && action.data.length() > 0) {
+      if (action.data === undefined) return state;
+
+      const data = action.data.data;
+      if (data && data.length && data.length > 0) {
         // We have a response
-        return Object.assign({}, state, {inks: action.data.data});
+        return Object.assign({}, state, {inks: data});
       } else {
         // If we don't have a response, it's an empty array
         return Object.assign({}, state, {inks: []});

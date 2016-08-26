@@ -16,3 +16,11 @@
 .ink .sample {
     padding: 0;
 }
+
+.ink .available {
+    background: #00ff00;
+}
+
+.ink .unavailable {
+    background: #ff0000;
+}

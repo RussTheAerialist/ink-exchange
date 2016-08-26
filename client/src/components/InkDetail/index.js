@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router';
 import './style.css';
 
-const Ink = ( { id, name, image_url, available, purchase_url, owner_name } ) => (
+const InkDetail = ( { id, name, image_url, available, purchase_url, owner_name } ) => (
   <li
     className={available ? 'ink available' : 'ink unavailable'}><Link to={"/ink/" + id}>
     <span className="sample"><img src={image_url || "//placehold.it/150x150"} alt={name} /></span>
@@ -20,4 +20,4 @@ Ink.propTypes = {
   available: React.PropTypes.bool
 };
 
-export default Ink;
+export default InkDetail;
