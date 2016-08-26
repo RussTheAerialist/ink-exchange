@@ -6,6 +6,8 @@ import {InkPreview} from '../InkPreview';
 import RequestHistory from './RequestHistory';
 import './style.css';
 
+const Promise = global.Promise;
+
 const mapStateToProps = state => ({
   ...state.ink,
   currentUser: state.app.currentUser
@@ -17,7 +19,10 @@ const mapDispatchToProps = dispatch => ({
 
 class Ink extends Component {
   componentWillMount() {
-    this.props.onLoad(agent.Inks.get(this.props.params.id));
+    this.props.onLoad(Promise.all([
+      agent.Inks.get(this.props.params.id),
+      agent.Requests.getRequestForInk(this.props.params.id)
+    ]));
   }
 
   componentWillUnmount() {
@@ -25,14 +30,14 @@ class Ink extends Component {
 
   render() {
     const ink = this.props.ink;
-    const history = this.props.history || [];
+    const requests = this.props.requestsHistory || [ ];
 
     if (ink) {
       console.dir(ink);
       return (
         <div className="columns">
           <InkPreview className="large" {...ink[0]}/>
-          <div className="inkSidebar"><RequestHistory history={history} /></div>
+          <div className="inkSidebar"><RequestHistory requests={requests} /></div>
         </div>
       )
     }

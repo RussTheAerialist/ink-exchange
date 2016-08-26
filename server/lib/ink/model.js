@@ -53,6 +53,12 @@ Model.prototype.delete = function (data) {
   return new Promise((resolve, reject) => {
     this.db.inks.destroy(data, passToPromise(resolve, reject));
   })
-}
+};
+
+Model.prototype.getRequestsForInk = function (id) {
+  return new Promise((resolve, reject) => {
+    this.db.requests_for_ink(id, passToPromise(resolve, reject));
+  });
+};
 
 module.exports = Model;

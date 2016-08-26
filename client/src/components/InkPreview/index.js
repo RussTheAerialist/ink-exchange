@@ -20,7 +20,7 @@ const Inks = props => {
     return (<ul className="inkPreviewList">{
       inks.map(ink => {
         return (
-          <li><InkPreview key={ink.id} {...ink}/></li>
+          <li key={ink.id}><InkPreview {...ink}/></li>
         );
       })
     }</ul>);

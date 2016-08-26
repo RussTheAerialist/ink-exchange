@@ -9,7 +9,8 @@ export default (state = defaultState, action) => {
     case actions.INK_LOADED:
       return {
         ...state,
-        ink: action.payload.data || null
+        ink: action.payload[0].data || null,
+        requestsHistory: action.payload[1].data.requests || []
       };
 
     default:

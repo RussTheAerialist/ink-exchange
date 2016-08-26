@@ -23,7 +23,12 @@ const Inks = {
   get: (id) => request.get(`/inks/${id}`)
 };
 
+const Requests = {
+  getRequestForInk: (inkId) => request.get(`/inks/${inkId}/requests`)
+};
+
 export default {
   Inks,
+  Requests,
   setToken: _token => { token = _token; }
 };
